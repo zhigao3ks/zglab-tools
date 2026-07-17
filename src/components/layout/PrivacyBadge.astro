@@ -1,0 +1,19 @@
+---
+import { siteConfig } from '../../config/site';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<span class:list={['privacy-badge', { 'privacy-badge-compact': compact }]}>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path
+      d="M3.5 7V5.5a4.5 4.5 0 0 1 9 0V7M2.5 7h11v7h-11z"
+      stroke="currentColor"
+      stroke-width="1.25"></path>
+  </svg>
+  <span>{compact ? 'Local only' : siteConfig.privacySummary}</span>
+</span>

@@ -1,0 +1,43 @@
+---
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { QrCodeGenerator } from '../components/tools/QrCodeGenerator';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('qr-code-generator');
+const instructions = [
+  '选择文本、URL、邮箱、电话或 Wi-Fi 类型并输入内容；空输入不会生成二维码。',
+  '调整尺寸、边距、纠错等级和颜色。对比度过低或透明背景可能影响扫码时，页面会给出提示。',
+  '确认预览后下载 PNG 或 SVG。文件和预览都在浏览器本地生成，不会自动打开其中的 URL。',
+];
+const faq = [
+  {
+    question: '二维码内容会发送给第三方吗？',
+    answer: '不会。二维码库打包在站点静态资源中，编码、预览和文件导出均在当前浏览器完成。',
+  },
+  {
+    question: '为什么内容过长时无法生成？',
+    answer: '二维码容量受内容 UTF-8 字节数和纠错等级影响。提高纠错等级会降低可容纳的数据量。',
+  },
+  {
+    question: 'Wi-Fi 密码会被保存吗？',
+    answer:
+      '不会写入日志或 localStorage。密码只存在于当前组件内存与二维码内容中，离开页面后不由本站保留。',
+  },
+];
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description="在浏览器本地生成文本、URL、邮箱、电话和 Wi-Fi 二维码，支持 PNG、SVG 与样式设置。"
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={instructions}
+    faq={faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <QrCodeGenerator client:load />
+  </ToolLayout>
+</BaseLayout>

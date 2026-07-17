@@ -1,0 +1,44 @@
+---
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { TextCounter } from '../components/tools/TextCounter';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('text-counter');
+const instructions = [
+  '输入或粘贴文本，统计结果会在短暂防抖后自动更新，大文本输入时减少无意义的连续计算。',
+  '默认中文阅读速度为每分钟 400 字，英文为每分钟 225 词，可按读者情况调整。',
+  '可复制纯文本统计摘要，或下载当前统计结果为本地生成的 TXT 报告。',
+];
+const faq = [
+  {
+    question: '字符数如何计算？',
+    answer:
+      '优先使用 Intl.Segmenter 按用户可见字素统计，因此常见 Emoji 和代理对不会被简单拆成两个字符。',
+  },
+  {
+    question: '行、段落和英文单词如何定义？',
+    answer:
+      '空文本为 0 行；CRLF 与 LF 会先统一；段落按一个或多个空行分隔；英文单词按拉丁字母和合理连接符边界识别。',
+  },
+  {
+    question: '阅读时间准确吗？',
+    answer: '它只是基于中文字符数和英文单词数的估算，不包含理解难度、图表和代码阅读时间。',
+  },
+];
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description="本地实时统计中文、英文单词、可见字符、段落、UTF-8 字节与估算阅读时间。"
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={instructions}
+    faq={faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <TextCounter client:load />
+  </ToolLayout>
+</BaseLayout>

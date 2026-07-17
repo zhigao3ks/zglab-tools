@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="隐私说明 | ZGLab Tools"
+  description="了解 ZGLab Tools 如何在浏览器本地处理数据、保存非敏感偏好，以及使用高敏感信息时的安全边界。"
+  canonicalPath="/privacy/"
+>
+  <article class="site-shell privacy-page">
+    <header>
+      <p class="section-kicker">PRIVACY / LOCAL-FIRST</p>
+      <h1>隐私说明</h1>
+      <p>
+        ZGLab Tools 的首要原则是让处理内容留在用户设备中。以下说明适用于本站当前提供的全部工具。
+      </p>
+    </header>
+
+    <div class="privacy-grid">
+      <aside class="privacy-aside">
+        <p class="section-kicker">IN SHORT</p>
+        <h2>正文不上传，偏好最小化</h2>
+        <p>本站没有后端处理接口、账户系统、数据库、广告脚本或第三方分析服务。</p>
+      </aside>
+      <div class="privacy-content">
+        <section>
+          <h2>处理发生在浏览器本地</h2>
+          <p>JSON、时间戳、文本与二维码的计算由下载到浏览器的静态 JavaScript 完成。</p>
+        </section>
+        <section>
+          <h2>输入不会主动上传</h2>
+          <p>本站不会将你输入或粘贴的内容主动发送至 ZGLab 服务器或第三方服务。</p>
+        </section>
+        <section>
+          <h2>处理内容不会保存</h2>
+          <p>
+            工具正文不写入 localStorage、Cookie
+            或数据库。刷新、关闭或离开页面后，本站不会同步或恢复这些正文。
+          </p>
+        </section>
+        <section>
+          <h2>仅保存少量非敏感偏好</h2>
+          <p>
+            主题模式、最近使用的工具标识等非敏感设置可能保存在
+            localStorage，以改善使用体验；其中不包含工具输入正文。
+          </p>
+        </section>
+        <section>
+          <h2>不使用第三方分析</h2>
+          <p>本站不接入广告、Cookie 追踪、访问统计或第三方分析脚本。</p>
+        </section>
+        <section>
+          <h2>避免处理高敏感信息</h2>
+          <p>
+            即使工具在本地运行，仍建议不要处理生产环境密码、私钥、私有 Token、真实 Wi-Fi
+            密码或其他高敏感信息。
+          </p>
+        </section>
+        <section>
+          <h2>设备环境的安全边界</h2>
+          <p>
+            浏览器扩展、恶意软件、输入法、剪贴板工具和本地设备环境不属于本站能够完全控制的范围。请在可信设备和浏览器环境中使用。
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

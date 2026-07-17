@@ -1,0 +1,42 @@
+---
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { TimestampConverter } from '../components/tools/TimestampConverter';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('timestamp-converter');
+const instructions = [
+  '当前时间区域每秒读取一次浏览器系统时间，可暂停更新并分别复制秒、毫秒、本地时间与 UTC。',
+  '时间戳转日期支持自动识别，也可手动指定秒或毫秒，并输出 ISO、UTC、本地与指定时区时间。',
+  '日期转时间戳时需明确输入时间所属时区，页面会拒绝无效日期和夏令时跳变导致的不存在时间。',
+];
+const faq = [
+  {
+    question: '自动识别秒和毫秒的规则是什么？',
+    answer: '绝对值达到 100,000,000,000 时按毫秒处理，否则按秒处理。歧义数据应手动指定单位。',
+  },
+  {
+    question: '当前时间来自服务器吗？',
+    answer: '不是。所有当前时间和相对时间都基于你的浏览器系统时钟。',
+  },
+  {
+    question: '是否支持 1970 年以前的日期？',
+    answer: '支持，合法的负时间戳不会被拒绝；超出 JavaScript Date 可表示范围的输入会明确报错。',
+  },
+];
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description="在浏览器本地进行 Unix 秒级、毫秒级时间戳与日期、UTC、本地时间和 IANA 时区转换。"
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={instructions}
+    faq={faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <TimestampConverter client:load />
+  </ToolLayout>
+</BaseLayout>

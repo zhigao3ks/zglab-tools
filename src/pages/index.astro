@@ -1,0 +1,103 @@
+---
+import PrivacyBadge from '../components/layout/PrivacyBadge.astro';
+import { ToolExplorer } from '../components/common/ToolExplorer';
+import { availableTools, visibleTools } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const categories = new Set(visibleTools.map((tool) => tool.category)).size;
+---
+
+<BaseLayout
+  title="ZGLab Tools"
+  description="浏览器端轻量工具箱。JSON、时间戳、文本处理与二维码生成均在本地完成，无需上传、注册或登录。"
+  canonicalPath="/"
+>
+  <section class="site-shell home-hero">
+    <div>
+      <p class="hero-index">ZGLAB / LOCAL UTILITY INDEX / 001</p>
+      <h1>
+        ZGLab Tools
+        <span>浏览器端轻量工具箱</span>
+      </h1>
+      <p class="hero-description">
+        数据在本地处理，无需上传，无需注册。打开页面即可完成格式化、转换、统计与生成。
+      </p>
+      <PrivacyBadge />
+      <ul class="hero-facts" aria-label="平台特点">
+        <li>无需注册</li>
+        <li>无需登录</li>
+        <li>无广告与追踪</li>
+        <li>刷新后不保留正文</li>
+      </ul>
+    </div>
+    <aside class="hero-ledger" aria-label="工具中心概况">
+      <p class="section-kicker">LOCAL-FIRST LEDGER</p>
+      <dl>
+        <div>
+          <dt>在线工具</dt>
+          <dd>{availableTools.length.toString().padStart(2, '0')}</dd>
+        </div>
+        <div>
+          <dt>工具分类</dt>
+          <dd>{categories.toString().padStart(2, '0')}</dd>
+        </div>
+        <div>
+          <dt>数据上传</dt>
+          <dd>NONE</dd>
+        </div>
+        <div>
+          <dt>运行位置</dt>
+          <dd>BROWSER</dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="home-tools-section" id="tools">
+    <div class="site-shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">
+            TOOL DIRECTORY / {visibleTools.length.toString().padStart(2, '0')}
+          </p>
+          <h2>选择一个工具，立即开始</h2>
+        </div>
+        <p>工具目录、分类、搜索词和状态均由统一配置生成。后续新增工具不需要修改首页布局。</p>
+      </div>
+      <ToolExplorer tools={visibleTools} client:load />
+    </div>
+  </section>
+
+  <section class="site-shell home-privacy">
+    <div>
+      <p class="section-kicker">PRIVACY BY DEFAULT</p>
+      <h2>你的输入，只属于当前浏览器页面</h2>
+      <p>
+        ZGLab Tools 不建立用户账户，不保存处理正文，也不接入第三方统计。你可以在使用前查看完整的
+        <a href="/privacy/">隐私说明</a>。
+      </p>
+    </div>
+    <div class="privacy-points">
+      <article>
+        <span>01</span>
+        <h3>本地计算</h3>
+        <p>JSON、文本、时间与二维码均由浏览器内的 JavaScript 处理。</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>正文不持久化</h3>
+        <p>工具输入不会写入 localStorage，刷新或关闭页面后不会同步到本站。</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>零账户依赖</h3>
+        <p>无需注册、登录或提供个人资料，打开工具即可使用。</p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>二维码本地生成</h3>
+        <p>二维码的内容、预览与下载文件都在当前设备生成。</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

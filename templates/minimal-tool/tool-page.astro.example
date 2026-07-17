@@ -1,0 +1,23 @@
+---
+import ToolLayout from '../../src/components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../../src/config/tools';
+import BaseLayout from '../../src/layouts/BaseLayout.astro';
+import { ToolIsland } from './ToolIsland';
+
+const tool = getToolById('text-normalizer');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={['输入文本并选择规范化选项。', '确认本地生成的输出。']}
+    faq={[{ question: '是否上传？', answer: '不会，处理只发生在浏览器本地。' }]}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <ToolIsland client:load />
+  </ToolLayout>
+</BaseLayout>

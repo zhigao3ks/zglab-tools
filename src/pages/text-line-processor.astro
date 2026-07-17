@@ -1,0 +1,44 @@
+---
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { TextLineProcessor } from '../components/tools/TextLineProcessor';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('text-line-processor');
+const instructions = [
+  '每一行作为一个处理单元。先选择 Trim、空行、大小写和标准化判重方式。',
+  '选择保留首次或末次重复项，再决定保持原顺序、字典序、自然排序、数字排序、随机打乱或反转。',
+  '固定流程为换行标准化、Trim、空行处理、去重、排序或反转，最后合并输出。',
+];
+const faq = [
+  {
+    question: '字典序、自然排序和数字排序有什么区别？',
+    answer:
+      '字典序按文本比较；自然排序会让 item2 排在 item10 前；数字排序只把整行有限数字作为数字比较，混合文本仍会保留。',
+  },
+  {
+    question: '标准化判重会改变输出文本吗？',
+    answer:
+      'NFKC 和大小写设置只用于生成判重键，保留下来的内容仍使用对应的原始行文本；若开启 Trim，则输出使用 Trim 后文本。',
+  },
+  {
+    question: '随机打乱是否可能丢失内容？',
+    answer: '不会。工具使用 Fisher–Yates 算法原地交换副本中的元素，不通过随机 sort 比较器处理。',
+  },
+];
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description="在浏览器本地按行去重、清理空白，并进行字典序、自然、数字排序、随机打乱或反转。"
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={instructions}
+    faq={faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <TextLineProcessor client:load />
+  </ToolLayout>
+</BaseLayout>

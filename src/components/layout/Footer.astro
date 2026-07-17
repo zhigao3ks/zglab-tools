@@ -1,0 +1,23 @@
+---
+import { siteConfig } from '../../config/site';
+---
+
+<footer class="site-footer">
+  <div class="site-shell footer-main">
+    <div>
+      <p class="footer-kicker">ZGLab / Utility Layer</p>
+      <p class="footer-title">数据留在浏览器，工具保持简单。</p>
+    </div>
+    <nav aria-label="页脚链接">
+      <a href="/privacy/">隐私说明</a>
+      <a href={siteConfig.parentSite}>zglab.fun ↗</a>
+      <a href={siteConfig.github}>GitHub ↗</a>
+      <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+    </nav>
+  </div>
+  <div class="site-shell footer-bottom">
+    <span>© 2026 {siteConfig.owner}</span>
+    <span>{siteConfig.domain}</span>
+    <span>No upload · No tracking · No account</span>
+  </div>
+</footer>

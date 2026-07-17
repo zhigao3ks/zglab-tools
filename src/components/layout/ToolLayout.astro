@@ -1,0 +1,88 @@
+---
+import type { FaqItem } from '../../types/common';
+import type { ToolDefinition } from '../../types/tool';
+import { categoryLabels, statusLabels } from '../../config/tools';
+import PrivacyBadge from './PrivacyBadge.astro';
+
+interface Props {
+  tool: ToolDefinition;
+  instructions: string[];
+  faq: FaqItem[];
+  relatedTools: ToolDefinition[];
+}
+
+const { tool, instructions, faq, relatedTools } = Astro.props;
+---
+
+<header class="site-shell tool-page-header">
+  <nav class="breadcrumb" aria-label="面包屑">
+    <a href="/">工具中心</a>
+    <span aria-hidden="true">/</span>
+    <span>{tool.name}</span>
+  </nav>
+  <div class="tool-page-heading">
+    <div>
+      <div class="tool-page-meta">
+        <span>{categoryLabels[tool.category]}</span>
+        <span class="tool-status" data-status={tool.status}>{statusLabels[tool.status]}</span>
+      </div>
+      <h1>{tool.name}</h1>
+      <p>{tool.description}</p>
+    </div>
+    <img src={tool.icon} alt="" width="92" height="92" />
+  </div>
+  <PrivacyBadge />
+</header>
+
+<section class="site-shell tool-workspace" aria-label={`${tool.name}工作区`}>
+  <slot />
+</section>
+
+<section class="tool-guide">
+  <div class="site-shell tool-guide-grid">
+    <div>
+      <p class="section-kicker">HOW TO USE</p>
+      <h2>使用说明</h2>
+      <ol>
+        {instructions.map((instruction) => <li>{instruction}</li>)}
+      </ol>
+    </div>
+    <div>
+      <p class="section-kicker">FAQ</p>
+      <h2>常见问题</h2>
+      <div class="faq-list">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-shell related-tools">
+  <div class="related-tools-heading">
+    <div>
+      <p class="section-kicker">NEXT TOOL</p>
+      <h2>相关工具</h2>
+    </div>
+    <a href="/">返回工具中心 →</a>
+  </div>
+  <div class="related-tools-grid">
+    {
+      relatedTools.map((related) => (
+        <a href={related.route}>
+          <img src={related.icon} alt="" width="32" height="32" />
+          <span>
+            <strong>{related.name}</strong>
+            <small>{related.description}</small>
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>

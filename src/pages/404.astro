@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="页面未找到 | ZGLab Tools"
+  description="请求的 ZGLab Tools 页面不存在。"
+  canonicalPath="/404/"
+>
+  <section class="site-shell not-found-page">
+    <p class="section-kicker">ROUTE NOT FOUND</p>
+    <div class="not-found-code" aria-hidden="true">404</div>
+    <header>
+      <h1>这里没有可用的工具</h1>
+      <p>链接可能已变更，或这个工具还没有加入目录。返回工具中心继续使用现有功能。</p>
+      <a class="action-button action-button-primary" href="/">返回工具中心</a>
+    </header>
+  </section>
+</BaseLayout>

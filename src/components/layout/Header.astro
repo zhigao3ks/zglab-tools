@@ -1,0 +1,24 @@
+---
+import { features } from '../../config/features';
+import { siteConfig } from '../../config/site';
+import { ThemeSwitcher } from '../common/ThemeSwitcher';
+---
+
+<header class="site-header">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <div class="site-shell header-inner">
+    <a class="brand" href="/" aria-label="ZGLab Tools 首页">
+      <span class="brand-mark" aria-hidden="true">ZT</span>
+      <span>
+        <strong>{siteConfig.name}</strong>
+        <small>LOCAL UTILITY INDEX</small>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <a href={siteConfig.parentSite}>返回 ZGLab ↗</a>
+      <a href={siteConfig.github} aria-label="访问 GitHub"> GitHub ↗ </a>
+      {features.themeSwitcher && <ThemeSwitcher client:load />}
+    </div>
+  </div>
+</header>

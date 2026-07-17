@@ -1,0 +1,57 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import { siteConfig } from '../config/site';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/components.css';
+import '../styles/tools.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  canonicalPath = Astro.url.pathname,
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, siteConfig.url);
+---
+
+<!doctype html>
+<html lang={siteConfig.locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#151c21" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem('zglab-tools:theme');
+          if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme;
+        } catch {
+          /* Storage may be unavailable in privacy-restricted browser contexts. */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

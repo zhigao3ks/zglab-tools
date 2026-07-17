@@ -1,0 +1,42 @@
+---
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { JsonFormatter } from '../components/tools/JsonFormatter';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('json-formatter');
+const instructions = [
+  '粘贴 JSON，选择 2 或 4 空格缩进；需要稳定键序时开启递归排序。',
+  '点击格式化、压缩或校验。解析失败时原始输入会保留，并显示尽可能准确的行列位置。',
+  '处理成功后可复制输出，或将结果下载为本地生成的 .json 文件。',
+];
+const faq = [
+  {
+    question: 'JSON 内容会被上传吗？',
+    answer: '不会。解析、排序、格式化与下载均在浏览器当前页面完成。',
+  },
+  {
+    question: '为什么尾逗号会报错？',
+    answer: '标准 JSON 不允许对象或数组的最后一项带尾逗号，也不支持注释和未加引号的键名。',
+  },
+  {
+    question: '大文件可以处理吗？',
+    answer: '可以继续尝试。超过 1 MB 时页面会提示性能风险，实际速度取决于设备与浏览器。',
+  },
+];
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description="在浏览器本地格式化、压缩、校验 JSON，支持错误行列定位、递归键名排序、复制和下载。"
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={instructions}
+    faq={faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <JsonFormatter client:load />
+  </ToolLayout>
+</BaseLayout>
