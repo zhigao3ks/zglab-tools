@@ -1,0 +1,34 @@
+---
+import { RegexTester } from '../components/tools/RegexTester';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('regex-tester');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '输入 JavaScript 正则、标志和待匹配文本。',
+      '实时查看全部匹配项、索引和捕获分组。',
+      '填写替换内容，使用 $1、$& 等标准语法检查替换结果。',
+    ]}
+    faq={[
+      {
+        question: '不填写 g 还能找到全部匹配吗？',
+        answer: '可以。工具会在匹配和替换时安全地使用全局副本，而不会修改你输入的含义。',
+      },
+      {
+        question: '为什么页面会变慢？',
+        answer: '少数复杂正则在长文本上会发生灾难性回溯，请缩小测试范围或简化量词。',
+      },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><RegexTester client:load /></ToolLayout
+  >
+</BaseLayout>

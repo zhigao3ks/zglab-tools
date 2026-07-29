@@ -1,0 +1,34 @@
+---
+import { UrlCodec } from '../components/tools/UrlCodec';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('url-codec');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '选择 encodeURIComponent 或 encodeURI 的编码范围。',
+      '输入 URL、查询值或普通文本并进行编码、解码。',
+      '使用“解析 URL”查看路径、Hash 与 Query 参数。',
+    ]}
+    faq={[
+      {
+        question: '两个编码函数有什么区别？',
+        answer: '组件模式适合单个参数值，会编码 &、=、/；URI 模式保留完整 URL 的结构字符。',
+      },
+      {
+        question: '为什么 URL 解析失败？',
+        answer: '解析器要求完整 URL，通常需要以 https:// 或 http:// 开头。',
+      },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><UrlCodec client:load /></ToolLayout
+  >
+</BaseLayout>

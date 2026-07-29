@@ -1,0 +1,31 @@
+---
+import { JwtDecoder } from '../components/tools/JwtDecoder';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('jwt-decoder');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '粘贴由 Header.Payload.Signature 构成的 JWT。',
+      '查看格式化后的 Header、Payload 和签名段。',
+      '根据 Payload.exp 检查当前浏览器时间下的过期状态。',
+    ]}
+    faq={[
+      {
+        question: '会验证 JWT 签名吗？',
+        answer: '不会。本工具只进行 Base64URL 解码和 JSON 解析，无法判断令牌是否可信。',
+      },
+      { question: 'Token 会上传或保存吗？', answer: '不会。Token 仅在当前浏览器页面内解析。' },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><JwtDecoder client:load /></ToolLayout
+  >
+</BaseLayout>

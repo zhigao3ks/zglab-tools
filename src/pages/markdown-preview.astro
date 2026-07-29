@@ -1,0 +1,34 @@
+---
+import { MarkdownPreview } from '../components/tools/MarkdownPreview';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('markdown-preview');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '在左侧输入 Markdown；右侧会实时更新预览。',
+      '支持标题、列表、引用、代码、粗斜体和安全链接。',
+      '复制 Markdown，或清空后开始新的文档。',
+    ]}
+    faq={[
+      {
+        question: '原始 HTML 会执行吗？',
+        answer: '不会。预览使用结构化渲染，HTML 会被当作普通文本而不是执行内容。',
+      },
+      {
+        question: '支持图片和表格吗？',
+        answer: '当前轻量预览聚焦常用正文语法，暂不加载外部图片，也不渲染表格。',
+      },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><MarkdownPreview client:load /></ToolLayout
+  >
+</BaseLayout>

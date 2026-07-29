@@ -1,0 +1,31 @@
+---
+import { TextDiff } from '../components/tools/TextDiff';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('text-diff');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '在左右输入框分别粘贴原始和修改后的文本。',
+      '下方会实时标记左侧删除内容和右侧新增内容。',
+      '超长文本会自动转为按行或粗粒度对比，以保持页面可用。',
+    ]}
+    faq={[
+      { question: '文本会上传吗？', answer: '不会。整个对比过程在当前浏览器内执行。' },
+      {
+        question: '为什么长文本的高亮变粗？',
+        answer: '为控制内存和响应速度，超出阈值时工具优先按行比较。',
+      },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><TextDiff client:load /></ToolLayout
+  >
+</BaseLayout>

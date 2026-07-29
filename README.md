@@ -1,6 +1,6 @@
 # ZGLab Tools
 
-ZGLab Tools 是 `tools.zglab.fun` 的静态工具平台：本地优先、打开即用、数据不离开浏览器。首版包含 JSON 格式化、时间戳转换、文本统计、文本按行去重排序和二维码生成五个工具。
+ZGLab Tools 是 `tools.zglab.fun` 的静态工具平台：本地优先、打开即用、数据不离开浏览器。目前包含 39 个工具，覆盖开发数据、图片、文本增强、前端设计与科研辅助。
 
 所有工具都在浏览器本地运行。项目没有数据库、登录、后端接口、广告、Cookie 追踪或第三方分析；工具输入正文不会写入 localStorage。
 
@@ -66,10 +66,10 @@ zglab-tools/
 │   ├── components/
 │   │   ├── common/          # 通用 Preact 操作组件
 │   │   ├── layout/          # Astro 页头、页脚、工具布局
-│   │   └── tools/           # 五个 Preact 工具 island
+│   │   └── tools/           # 各工具的 Preact island
 │   ├── config/              # 站点、导航、功能和工具注册
 │   ├── layouts/             # SEO 与全局布局
-│   ├── pages/               # 首页、工具页、隐私页、404
+│   ├── pages/               # 首页、专属工具页、配置驱动工具页、隐私页、404
 │   ├── styles/              # Token、全局、组件和工具样式
 │   ├── tools/               # 每个工具的纯逻辑、类型与测试
 │   ├── types/               # 平台通用类型
@@ -79,13 +79,47 @@ zglab-tools/
 └── scripts/deploy.sh        # 检查、构建、备份、发布与验证
 ```
 
-## 首批工具
+## 已有工具
 
 1. JSON 格式化器：使用 Web Worker 执行格式化、压缩、校验、错误定位和键名排序，并支持复制与 JSON 下载。
 2. 时间戳转换器：实时浏览器时钟、秒/毫秒识别、UTC、本地与 IANA 时区转换。
 3. 文本统计器：Unicode 感知字符、中文、英文、行、段落、UTF-8 字节和阅读时间。
 4. 文本去重与排序：Trim、空行策略、保留首/末重复项、自然/数字/字典序、随机和反转。
 5. 二维码生成器：文本、URL、邮箱、电话、Wi-Fi，支持本地 PNG/SVG 下载和对比度提示。
+6. Base64 编解码：UTF-8 文本与 Base64 互转，支持中文、Emoji、本地文件编码和二进制下载。
+7. URL 编解码：`encodeURI`、`encodeURIComponent`、解码、URL 解析与 Query 参数查看。
+8. UUID 生成器：基于 Web Crypto 批量生成 UUID v4，支持复制、下载与已有 UUID 去重。
+9. 文本对比工具：左右文本实时比较，突出新增与删除内容；长文本自动降级为按行比较。
+10. 正则表达式测试：实时匹配、捕获分组、替换结果和常用模板。
+11. JWT 解码器：本地解码 Header、Payload、Signature，并检查 `exp` 过期状态；不验证签名。
+12. 哈希计算工具：本地计算文本或文件的 MD5、SHA-1、SHA-256、SHA-512。
+13. Markdown 预览：左侧编辑，右侧安全实时渲染常用 Markdown 语法，不执行原始 HTML。
+
+### 图片工具
+
+14. 图片压缩：Canvas 本地压缩，支持输出格式、质量和体积变化预览。
+15. 图片尺寸调整：按像素调整宽高并保持比例。
+16. PNG/JPG/WebP 转换：本地格式与质量转换。
+17. 图片裁剪：按像素边界裁剪。
+18. 图片圆角处理：生成透明圆角 PNG。
+19. 图片转 Base64：生成可复制的 Data URL。
+20. ICO 图标生成：从中心正方形图像生成 PNG 封装 ICO。
+21. 图片取色器：点击像素读取 HEX、RGB、HSL。
+
+### 文本与设计工具
+
+22. 大小写转换、23. 命名转换、24. 空格和空行清理、25. 查找替换。
+23. 随机字符串生成、27. Lorem Ipsum 生成、28. URL/邮箱/手机号提取、29. 隐藏字符检测。
+24. HEX/RGB/HSL 转换、31. 颜色选择器、32. 渐变色生成器。
+25. CSS 阴影生成器、34. CSS 圆角生成器、35. REM/PX 转换、36. 屏幕尺寸与比例计算。
+
+### 特色化工具
+
+37. Token 数量估算：按文本构成提供三种本地启发式估算参考。
+38. DOI 检查与参考文献转换：规范化 DOI，并输出 GB/T 7714、APA 7、BibTeX。
+39. 实验数据图表：从 CSV/TSV 生成本地折线图、散点图、柱状图和 PNG。
+
+文本排序已由“文本去重与排序”工具提供，支持字典、自然、数字和反向排序。
 
 ## 配置驱动
 
@@ -93,17 +127,17 @@ zglab-tools/
 
 - `visible: false` 会从首页、搜索和导航隐藏。
 - `planned` 或 `disabled` 可以展示状态，但不会提供不可用入口。
-- 工具页面本身仍需单独创建 Astro 路由和对应 island。
+- 标准工具会由 `[tool].astro` 构建为独立静态路由；只有特殊布局才需要单独 Astro 页面。
 
-新增第六个工具的最短步骤：
+新增工具的最短步骤：
 
 1. 新建 `src/tools/<id>/` 的逻辑、类型和测试。
-2. 新建 `src/components/tools/<Tool>.tsx`。
-3. 新建 `src/pages/<route>.astro`。
-4. 在 `src/config/tools.ts` 注册。
+2. 新建 island，或为 `ImageTool`、`TextEnhancer`、`DesignTool` 添加一个受控模式。
+3. 在 `src/config/tools.ts` 注册工具，并在 `src/config/tool-pages.ts` 填写使用说明和 FAQ。
+4. 若使用共享 island，在 `ToolIslandDispatcher.tsx` 增加一条受限映射；特殊页面才新建 `src/pages/*.astro`。
 5. 执行 lint、check、test 和 build。
 
-完整字段与边界说明见 [docs/adding-a-tool.md](docs/adding-a-tool.md)。
+首页、搜索、导航和 sitemap 会在构建时自动包含注册后的路由；不需要额外部署服务或改动 Nginx。完整字段与边界说明见 [docs/adding-a-tool.md](docs/adding-a-tool.md)。
 
 ## 隐私与本地存储
 
@@ -148,4 +182,6 @@ cp .env.example .env
 - 时区列表优先使用 `Intl.supportedValuesOf('timeZone')`，旧浏览器使用常用时区降级列表。
 - 阅读时间是按可配置速度计算的估算值。
 - 二维码容量取决于 UTF-8 字节数和纠错等级，工具使用保守容量校验。
+- 正则测试会在浏览器主线程运行，复杂回溯模式在超长文本上可能较慢。
+- JWT 工具只解码，不校验签名、发行方或权限；Markdown 预览刻意不支持原始 HTML 与外部图片。
 - 本地运行不能防止恶意浏览器扩展、输入法或设备级恶意软件读取页面内容。

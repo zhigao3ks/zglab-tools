@@ -1,0 +1,31 @@
+---
+import { HashCalculator } from '../components/tools/HashCalculator';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('hash-calculator');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '输入文本，或选择一个本地文件。',
+      '选择 MD5、SHA-1、SHA-256、SHA-512 中的一种或多种算法。',
+      '计算后复制各哈希值，用于本地完整性比对。',
+    ]}
+    faq={[
+      { question: '文件会被上传吗？', answer: '不会。文件字节只在当前浏览器中读取并计算。' },
+      {
+        question: 'MD5 和 SHA-1 可以用于密码吗？',
+        answer: '不可以。它们只适合兼容性或完整性校验；密码需使用专门的慢哈希方案。',
+      },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><HashCalculator client:load /></ToolLayout
+  >
+</BaseLayout>

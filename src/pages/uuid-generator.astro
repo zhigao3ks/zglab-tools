@@ -1,0 +1,31 @@
+---
+import { UuidGenerator } from '../components/tools/UuidGenerator';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('uuid-generator');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '设置批量生成数量并点击生成。',
+      '复制或下载每行一个的 UUID v4 列表。',
+      '将已有 UUID v4 粘贴到下方，以统一大小写并去重。',
+    ]}
+    faq={[
+      {
+        question: '随机性来自哪里？',
+        answer: 'UUID 使用浏览器 Web Crypto 的 getRandomValues 安全随机数。',
+      },
+      { question: '是否会保存 UUID？', answer: '不会。生成和去重的内容只存在于当前页面内存。' },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><UuidGenerator client:load /></ToolLayout
+  >
+</BaseLayout>

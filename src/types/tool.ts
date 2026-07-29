@@ -1,6 +1,6 @@
 export type ToolStatus = 'online' | 'beta' | 'planned' | 'disabled';
 
-export type ToolCategory = 'format' | 'time' | 'text' | 'generator';
+export type ToolCategory = 'format' | 'time' | 'text' | 'generator' | 'image';
 
 export interface ToolDefinition {
   id: string;

@@ -1,0 +1,32 @@
+---
+import { ToolIslandDispatcher } from '../components/tools/ToolIslandDispatcher';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { toolPageContents, type ToolPageContent } from '../config/tool-pages';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return toolPageContents.map((content) => ({
+    params: { tool: getToolById(content.id).route.replace(/^\//u, '').replace(/\/$/u, '') },
+    props: { content },
+  }));
+}
+
+const { content } = Astro.props as { content: ToolPageContent };
+const tool = getToolById(content.id);
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={content.instructions}
+    faq={content.faq}
+    relatedTools={getRelatedTools(tool.id)}
+  >
+    <ToolIslandDispatcher toolId={tool.id} client:load />
+  </ToolLayout>
+</BaseLayout>

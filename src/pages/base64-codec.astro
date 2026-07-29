@@ -1,0 +1,28 @@
+---
+import { Base64Codec } from '../components/tools/Base64Codec';
+import ToolLayout from '../components/layout/ToolLayout.astro';
+import { getRelatedTools, getToolById } from '../config/tools';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tool = getToolById('base64-codec');
+---
+
+<BaseLayout
+  title={`${tool.name} | ZGLab Tools`}
+  description={tool.description}
+  canonicalPath={tool.route}
+>
+  <ToolLayout
+    tool={tool}
+    instructions={[
+      '选择文本编码或解码，然后输入内容。',
+      '编码文件时选择本地文件，浏览器会直接读取字节。',
+      '复制、下载结果，或将二进制解码结果保存为文件。',
+    ]}
+    faq={[
+      { question: '中文会乱码吗？', answer: '不会。文本按 UTF-8 编码和解码，支持中文及 Emoji。' },
+      { question: '文件会上传吗？', answer: '不会。选择的文件只由当前浏览器读取和转换。' },
+    ]}
+    relatedTools={getRelatedTools(tool.id)}><Base64Codec client:load /></ToolLayout
+  >
+</BaseLayout>

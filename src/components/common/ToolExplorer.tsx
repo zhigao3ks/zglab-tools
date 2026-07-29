@@ -10,7 +10,7 @@ interface ToolExplorerProps {
 
 type CategoryFilter = 'all' | ToolCategory;
 
-const categoryOrder: CategoryFilter[] = ['all', 'format', 'time', 'text', 'generator'];
+const categoryOrder: CategoryFilter[] = ['all', 'format', 'time', 'text', 'image', 'generator'];
 
 export function ToolExplorer({ tools }: ToolExplorerProps) {
   const [query, setQuery] = useState('');
