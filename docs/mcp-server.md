@@ -183,3 +183,16 @@ EXECUTION_TIMEOUT / TOOL_NOT_FOUND / TOOL_DISABLED / INTERNAL_TOOL_ERROR
 
 13C 才在 `zglab-rag` 建立 MCP Client 并 spawn 本 server；届时补齐 hard process/request
 deadline、`MCPToolCapability` 集成与调用审计。本阶段不触碰 `zglab-rag` 的产品调用链。
+
+## 15. Phase 13D 生产产物
+
+`npm run build:mcp` 生成仅供内网 stdio host 使用的 `dist-mcp/`：
+
+- `cli.js`：Node 22 ESM self-contained bundle，不依赖 `tsx`、`src/` 或安装目录的
+  `node_modules`；
+- `manifest.json`：`server`、`version`、`source_commit`、`tool_count=10` 的可追溯元数据；
+- 产物不进入 Astro `dist/`、`/var/www/`、Nginx 或任何公网监听端口。
+
+生产安装必须使用固定 `/usr/bin/node <artifact>/cli.js` argv；禁止 `npx`、`tsx`、
+`npm run` 与 shell wrapper。Node 版本必须满足 `package.json` 的 `>=22.12.0`，否则 MCP
+必须保持关闭。

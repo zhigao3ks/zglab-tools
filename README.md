@@ -162,8 +162,12 @@ stdio integration test 验证 `initialize` / `tools/list` / `tools/call`。浏�
 
 ```bash
 npm run mcp:server   # 本地启动 stdio MCP Server（tsx src/mcp/cli.ts）
-npm run build:mcp    # 编译生产形状产物 dist-mcp/cli.js（node dist-mcp/cli.js 运行）
+npm run build:mcp    # 编译生产产物 dist-mcp/cli.js 与 dist-mcp/manifest.json
 ```
+
+`dist-mcp/` 是独立 Node 22 ESM bundle：不依赖 `tsx`、`src/` 或本仓库的
+`node_modules`，不能放入 Astro 的 `dist/` 或 `/var/www/` 静态站点。manifest 仅记录
+server 名、版本、source commit 与 10 个工具的数量，不含本地路径或 secret。
 
 这是 Phase 13A（Tool Core Boundary & MCP Contract Foundation）、Phase 13B（MCP Server
 Runtime）与 Phase 13C（MCP Client + Capability Integration，由 `zglab-rag` 侧实现）的落地。
