@@ -1,5 +1,7 @@
 # build output
 dist/
+# MCP server build (internal runtime asset; never part of the browser site)
+dist-mcp/
 # generated types
 .astro/
 

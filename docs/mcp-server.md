@@ -50,13 +50,18 @@ MCP      → src/tool-core → src/tools/*/logic.ts
 
 ## 4. 启动与进程生命周期
 
-- 入口 `src/mcp/cli.ts`（`npm run mcp:server` = `tsx src/mcp/cli.ts`）。
+- 开发入口 `src/mcp/cli.ts`（`npm run mcp:server` = `tsx src/mcp/cli.ts`）。
+- **生产形状编译产物**：`npm run build:mcp` 用 esbuild 把 `src/mcp/cli.ts` + 共享 tool core
+  打成 `dist-mcp/cli.js`（35KB，node_modules 保持 external），运行 `node dist-mcp/cli.js`。
+  `dist-mcp/` 与浏览器 `dist/` 严格分离，`gitignore`/tsconfig/eslint/prettier 均已排除，永不
+  进入 `tools.zglab.fun` 站点。
+- 13C 的 `zglab-rag` Host 优先 spawn `node dist-mcp/cli.js`（不依赖 tsx）。
 - 正常 stdin close / SIGTERM / SIGINT → `server.close()` 后 `process.exit(0)`，不挂 zombie、
   不残留 child（本阶段 server 自己不 spawn child）。
 - uncaught exception / unhandled rejection → 仅写 stderr，`process.exit(1)`。
 
 > 注意：`npm run mcp:server` 会由 npm 在 stdout 打印一行脚本 banner，只适合人工本地启动。
-> 机器调用（13C）直接 spawn `tsx src/mcp/cli.ts`（或未来编译产物），其 stdout 严格纯净。
+> 机器调用（13C）直接 spawn `node dist-mcp/cli.js`，其 stdout 严格纯净。
 
 ## 5. tools/list
 

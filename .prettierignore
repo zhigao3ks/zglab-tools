@@ -1,4 +1,5 @@
 dist/
+dist-mcp/
 .astro/
 node_modules/
 coverage/

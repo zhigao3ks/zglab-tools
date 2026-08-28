@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   {
-    ignores: ['dist/**', '.astro/**', 'node_modules/**', 'coverage/**'],
+    ignores: ['dist/**', 'dist-mcp/**', '.astro/**', 'node_modules/**', 'coverage/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -28,6 +28,14 @@ export default defineConfig(
   },
   {
     files: ['**/*.test.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/*.{mjs,cjs}'],
     languageOptions: {
       globals: {
         ...globals.node,
