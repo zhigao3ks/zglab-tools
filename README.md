@@ -72,6 +72,7 @@ zglab-tools/
 │   ├── pages/               # 首页、专属工具页、配置驱动工具页、隐私页、404
 │   ├── styles/              # Token、全局、组件和工具样式
 │   ├── tools/               # 每个工具的纯逻辑、类型与测试
+│   ├── tool-core/           # 机器可调用的 Shared Tool Core（Phase 13A，见 docs/mcp-tools.md）
 │   ├── types/               # 平台通用类型
 │   └── utils/               # 剪贴板、下载、存储和文本辅助
 ├── templates/minimal-tool/ # 可复制的最小工具示例
@@ -147,6 +148,18 @@ zglab-tools/
 - 下载使用本地 Blob/Object URL，并在触发后释放 URL。
 - 二维码内容不会自动打开，也不会通过 `innerHTML` 渲染。
 - 项目不使用 `eval` 或 `new Function`。
+
+## MCP Tool Core（Phase 13A）
+
+为了未来让 Agent 通过 MCP 调用受控的确定性工具，项目新增了一层机器可调用的 Shared Tool Core
+（`src/tool-core/`）。它只 import 既有 `src/tools/*/logic.ts` 纯逻辑，不复制算法、不暴露
+UI 组件，用窄化的 typed/bounded contract（Tool Contract + Tool Registry + JSON Schema +
+资源上限 + 安全错误模型）包裹了 10 个 deterministic pure tool（JSON / Base64 / URL / text /
+timestamp）。浏览器工具站行为保持不变，现有 UI 测试零回归。
+
+这是 Phase 13A（Tool Core Boundary & MCP Contract Foundation）的落地；MCP Server（13B）、
+MCP Client（13C）尚未实现。边界、入选/不入选工具、错误模型与跨仓库方案见
+[docs/mcp-tools.md](docs/mcp-tools.md)。
 
 ## 部署
 
