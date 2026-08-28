@@ -149,17 +149,23 @@ zglab-tools/
 - 二维码内容不会自动打开，也不会通过 `innerHTML` 渲染。
 - 项目不使用 `eval` 或 `new Function`。
 
-## MCP Tool Core（Phase 13A）
+## MCP Tool Core 与 MCP Server（Phase 13A/13B）
 
-为了未来让 Agent 通过 MCP 调用受控的确定性工具，项目新增了一层机器可调用的 Shared Tool Core
-（`src/tool-core/`）。它只 import 既有 `src/tools/*/logic.ts` 纯逻辑，不复制算法、不暴露
-UI 组件，用窄化的 typed/bounded contract（Tool Contract + Tool Registry + JSON Schema +
-资源上限 + 安全错误模型）包裹了 10 个 deterministic pure tool（JSON / Base64 / URL / text /
-timestamp）。浏览器工具站行为保持不变，现有 UI 测试零回归。
+为了未来让 Agent 通过 MCP 调用受控的确定性工具，项目新增了机器可调用的 Shared Tool Core
+（`src/tool-core/`，Phase 13A）并在其上实现了 stdio-only 的 MCP Server（`src/mcp/`，Phase
+13B）。二者只 import 既有 `src/tools/*/logic.ts` 纯逻辑，不复制算法、不暴露 UI 组件，用窄化的
+typed/bounded contract（Tool Contract + Tool Registry + JSON Schema + 资源上限 + 安全错误
+模型）包裹了 10 个 deterministic pure tool（JSON / Base64 / URL / text / timestamp），并通过
+官方 MCP Client 的真实 stdio integration test 验证 `initialize` / `tools/list` / `tools/call`。
+浏览器工具站行为保持不变，现有 UI 测试零回归，MCP SDK / `node:*` 不进入浏览器 bundle。
 
-这是 Phase 13A（Tool Core Boundary & MCP Contract Foundation）的落地；MCP Server（13B）、
-MCP Client（13C）尚未实现。边界、入选/不入选工具、错误模型与跨仓库方案见
-[docs/mcp-tools.md](docs/mcp-tools.md)。
+```bash
+npm run mcp:server   # 本地启动 stdio MCP Server（tsx src/mcp/cli.ts）
+```
+
+这是 Phase 13A（Tool Core Boundary & MCP Contract Foundation）与 Phase 13B（MCP Server
+Runtime）的落地；MCP Client（13C）尚未实现。边界、入选/不入选工具与错误模型见
+[docs/mcp-tools.md](docs/mcp-tools.md)，MCP Server 设计见 [docs/mcp-server.md](docs/mcp-server.md)。
 
 ## 部署
 

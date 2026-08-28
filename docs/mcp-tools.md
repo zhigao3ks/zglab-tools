@@ -3,8 +3,9 @@
 本文档描述 `zglab-tools` 如何在不改变浏览器工具行为的前提下，把一小部分确定性纯逻辑提升为
 机器可调用的 **Shared Tool Core**，供未来 Phase 13B 的 MCP Server 复用。
 
-> 权威 Phase 路线见 `zglab-rag` 仓库的 `docs/roadmap-v2.md`。Phase 13A 只冻结
-> Tool Core / Contract / Registry / schema，不实现 MCP Server、MCP Client 或 Agent Router。
+> 权威 Phase 路线见 `zglab-rag` 仓库的 `docs/roadmap-v2.md`。Phase 13A 冻结
+> Tool Core / Contract / Registry / schema；Phase 13B 已在其上实现 stdio MCP Server
+> （见 `docs/mcp-server.md`）。MCP Client（13C）与 Agent Router（14）尚未实现。
 
 ## 1. 边界：Browser UI 与 Machine Runtime 共享同一份逻辑
 
@@ -18,7 +19,7 @@ src/tools/<id>/logic.ts   ← 纯逻辑（无 DOM、无 Preact）
         │
 src/tool-core/            ← 机器可调用的 Tool Core（Phase 13A 新增）
         │
-        ▼（Phase 13B，尚未实现）
+        ▼（Phase 13B 已实现，见 docs/mcp-server.md）
 MCP Server → stdio → MCP Client
 ```
 
@@ -125,7 +126,7 @@ timeoutMs      = 2000（reserved；13B 在 server 进程边界执行）
 `ToolResult` 是确定性计算结果，**不是** `zglab-rag` 中的 `Evidence`。两者在 Phase 14 之前保持
 严格分离：确定性结果不需要伪造 citation；未来统一抽象是 Phase 14 的 `AgentObservation`。
 
-## 9. Cross-repo Boundary（冻结为 Option B）
+## 9. Cross-repo Boundary（冻结为 Option B，13B 已落地 server）
 
 ```text
 zglab-tools shared core
